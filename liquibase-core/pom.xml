@@ -144,6 +144,11 @@
             <artifactId>logback-classic</artifactId>
         </dependency>
 
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+		</dependency>
+
     </dependencies>
 
 	<build>
@@ -322,6 +327,56 @@
 						<phase>verify</phase>
 						<goals>
 							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<configuration>
+					<shadedArtifactAttached>false</shadedArtifactAttached>
+					<artifactSet>
+						<includes>
+							<include>*:*</include>
+						</includes>
+					</artifactSet>
+					<filters>
+						<filter>
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>META-INF/*.SF</exclude>
+								<exclude>META-INF/*.DSA</exclude>
+								<exclude>META-INF/*.RSA</exclude>
+							</excludes>
+						</filter>
+					</filters>
+					<relocations combine.children="append">
+						<relocation>
+							<pattern>com.opencsv</pattern>
+							<shadedPattern>
+								liquibase.util.csv.opencsv
+							</shadedPattern>
+							<includes>
+								<include>com.opencsv.**</include>
+							</includes>
+							<excludes>
+								<exclude>com.opencsv.CSVParserBuilder</exclude>
+								<exclude>com.opencsv.CSVReaderBuilder</exclude>
+								<exclude>com.opencsv.ResultSetHelper</exclude>
+								<exclude>com.opencsv.ResultSetHelperService</exclude>
+								<exclude>com.opencsv.bean.IterableCSVToBean</exclude>
+								<exclude>com.opencsv.bean.IterableCSVToBeanBuilder</exclude>
+							</excludes>
+						</relocation>
+					</relocations>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
 						</goals>
 					</execution>
 				</executions>
