@@ -7,34 +7,21 @@ import java.io.Writer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CSVWriter extends liquibase.util.csv.opencsv.CSVWriter {
+public class CSVWriter extends com.opencsv.CSVWriter {
     private static final ISODateFormat ISO_DATE_FORMAT = new ISODateFormat();
 
+    /**
+     * The character used for escaping quotes.
+     */
+    public static final char DEFAULT_ESCAPE_CHARACTER = '\\';
+
     public CSVWriter(Writer writer) {
-        super(writer);
+        super(writer,
+                CSVWriter.DEFAULT_SEPARATOR,
+                CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                DEFAULT_ESCAPE_CHARACTER);
     }
 
-    public CSVWriter(Writer writer, char c) {
-        super(writer, c);
-    }
-
-    public CSVWriter(Writer writer, char c, char c1) {
-        super(writer, c, c1);
-    }
-
-    public CSVWriter(Writer writer, char c, char c1, char c2) {
-        super(writer, c, c1, c2);
-    }
-
-    public CSVWriter(Writer writer, char c, char c1, String s) {
-        super(writer, c, c1, s);
-    }
-
-    public CSVWriter(Writer writer, char c, char c1, char c2, String s) {
-        super(writer, c, c1, c2, s);
-    }
-
-    
     private String getColumnValue(ResultSet rs, int colType, int colIndex) throws SQLException, IOException {
 
         Object value = rs.getObject(colIndex);

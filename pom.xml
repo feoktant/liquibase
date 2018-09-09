@@ -355,7 +355,7 @@
                 <!-- artifact is shaded via maven-shade-plugin -->
                 <groupId>com.opencsv</groupId>
                 <artifactId>opencsv</artifactId>
-                <version>3.6</version>
+                <version>3.7</version>
             </dependency>
 
             <!-- JDBC drivers -->
