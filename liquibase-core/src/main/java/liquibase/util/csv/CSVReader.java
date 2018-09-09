@@ -14,19 +14,27 @@ public class CSVReader extends com.opencsv.CSVReader {
      * The default leading whitespace behavior to use if none is supplied to the
      * constructor.
      */
-    public static final boolean DEFAULT_IGNORE_LEADING_WHITESPACE = false;
+    private static final boolean LIQUIBASE_IGNORE_LEADING_WHITESPACE = false;
 
     public CSVReader(Reader reader) {
-        this(reader, DEFAULT_SEPARATOR, DEFAULT_QUOTE_CHARACTER);
+        this(reader, DEFAULT_SEPARATOR);
+    }
+
+    public CSVReader(Reader reader, char separator) {
+        this(reader, separator, DEFAULT_QUOTE_CHARACTER);
     }
 
     public CSVReader(Reader reader, char separator, char quotechar) {
+        this(reader, separator, quotechar, CSVReader.DEFAULT_SKIP_LINES);
+    }
+
+    public CSVReader(Reader reader, char separator, char quotechar, int line) {
         super(reader,
                 separator,
                 quotechar,
                 CSVParser.DEFAULT_ESCAPE_CHARACTER,
-                CSVReader.DEFAULT_SKIP_LINES,
+                line,
                 CSVParser.DEFAULT_STRICT_QUOTES,
-                DEFAULT_IGNORE_LEADING_WHITESPACE);
+                LIQUIBASE_IGNORE_LEADING_WHITESPACE);
     }
 }

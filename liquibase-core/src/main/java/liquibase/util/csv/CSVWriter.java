@@ -13,13 +13,30 @@ public class CSVWriter extends com.opencsv.CSVWriter {
     /**
      * The character used for escaping quotes.
      */
-    public static final char DEFAULT_ESCAPE_CHARACTER = '\\';
+    private static final char LIQUIBASE_ESCAPE_CHARACTER = '\\';
 
     public CSVWriter(Writer writer) {
-        super(writer,
-                CSVWriter.DEFAULT_SEPARATOR,
-                CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                DEFAULT_ESCAPE_CHARACTER);
+        this(writer, CSVWriter.DEFAULT_SEPARATOR);
+    }
+
+    public CSVWriter(Writer writer, char separator) {
+        this(writer, separator, CSVWriter.DEFAULT_QUOTE_CHARACTER);
+    }
+
+    public CSVWriter(Writer writer, char separator, char quotechar) {
+        this(writer, separator, quotechar, LIQUIBASE_ESCAPE_CHARACTER);
+    }
+
+    public CSVWriter(Writer writer, char separator, char quotechar, char escapechar) {
+        this(writer, separator, quotechar, escapechar, DEFAULT_LINE_END);
+    }
+
+    public CSVWriter(Writer writer, char separator, char quotechar, String lineEnd) {
+        this(writer, separator, quotechar, LIQUIBASE_ESCAPE_CHARACTER, lineEnd);
+    }
+
+    public CSVWriter(Writer writer, char separator, char quotechar, char escapechar, String lineEnd) {
+        super(writer, separator, quotechar, escapechar, lineEnd);
     }
 
     private String getColumnValue(ResultSet rs, int colType, int colIndex) throws SQLException, IOException {
